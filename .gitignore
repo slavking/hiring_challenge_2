@@ -2,6 +2,9 @@ ecs.iml
 .idea
 .idea/**
 
+# AWS credentials
+.aws/
+
 # Terraform
 .terraform/
 *.tfstate
