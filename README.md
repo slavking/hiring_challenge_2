@@ -134,44 +134,7 @@ role would also need `kms:Decrypt` — a commented statement in
 
 Only `environments/prod` exists, but every difference is a variable — a dev
 environment is the same root module with a different backend block and
-tfvars. Example dev tfvars:
-
-```hcl
-aws_profile = "ecs-dev"
-environment = "dev"
-
-vpc_cidr           = "10.0.0.0/16"
-azs                = ["eu-central-1a", "eu-central-1b"]   # 2 AZs
-private_subnets    = ["10.0.1.0/24", "10.0.2.0/24"]
-public_subnets     = ["10.0.101.0/24", "10.0.102.0/24"]
-single_nat_gateway = true                                  # one shared NAT
-
-task_cpu                     = 256
-task_memory                  = 512
-desired_count                = 1
-min_capacity                 = 1
-max_capacity                 = 2
-enable_request_count_scaling = false   # CPU-only at dev traffic levels
-
-health_check_grace_period_seconds  = 30
-enable_circuit_breaker_rollback    = false  # fail fast and visibly in dev
-deployment_minimum_healthy_percent = 50
-log_retention_in_days              = 7
-enable_container_insights          = false
-```
-
-| Setting | dev | prod |
-|---|---|---|
-| AZs | 2 | 3 |
-| NAT gateways | 1 shared | 1 per AZ |
-| Task size | 256 CPU / 512 MiB | 512 CPU / 1024 MiB |
-| desired / min / max | 1 / 1 / 2 | 3 / 3 / 10 |
-| Scaling policies | CPU only | CPU + request count |
-| Health-check grace | 30 s | 60 s |
-| Circuit-breaker rollback | off | on |
-| Min healthy during deploy | 50 % | 100 % |
-| Log retention | 7 d | 30 d |
-| Container Insights | off | on |
+tfvars. 
 
 ## What I'd add with more time
 
